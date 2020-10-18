@@ -1,0 +1,31 @@
+@import url('https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap');
+
+.gameInfo {
+    text-align: center;
+    font-family: 'Gochi Hand', cursive;
+    font-size: 120%;
+    border: 1px solid rgb(39, 22, 22);
+    border-radius: 170px;
+    width: 70%;
+    margin: 10px auto;
+    margin-bottom: 100px;
+    padding: 10px;
+    background-image: linear-gradient(to bottom right, darkblue, rgb(255, 255, 255));
+    -webkit-text-stroke: 1px black;
+
+}
+h3 {
+    text-decoration: underline;
+    font-size: 180%;
+    -webkit-text-stroke: 0.1px white;
+
+}
+ol {
+    max-width: 200px;
+    min-width: 50%;
+    margin: 0 auto;
+}
+li {
+    margin: 10px;
+    font-size: 110%;
+}

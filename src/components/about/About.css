@@ -1,0 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Gochi+Hand&family=Permanent+Marker&display=swap');
+
+.h2 {
+    text-decoration: underline;
+    font-family: 'Permanent Marker', cursive;
+    color: white;
+    -webkit-text-stroke: 1px black;
+    text-shadow: 2px 2px #000000;
+}

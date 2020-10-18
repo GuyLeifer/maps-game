@@ -1,0 +1,20 @@
+.navbar {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    position: sticky;
+    background-image: linear-gradient(to bottom right, darkblue, rgb(255, 255, 255));
+    color: white;
+    width: 100%;
+    top: 0;
+    z-index: 1;
+}
+.navbarLink {
+    color: white;
+    text-decoration: none;
+}
+.Icon {
+    background-color: white;
+    border-radius: 50%;
+    margin: 10px;
+}
