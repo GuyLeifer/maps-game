@@ -31,7 +31,7 @@ const handleReset = useCallback(
         if (roundCounter === 4) {
             setNumOfHints(1);
             reset(e, true);
-    } else {
+        } else {
         reset(e, false);
         }
     },
@@ -41,8 +41,10 @@ const handleReset = useCallback(
   return (
       <Draggable>
             <div className='controls'>
-                <div></div>
-                <h1>Game Controller</h1>
+                <div>
+                  <h1>Game Controller</h1>
+                  <p>(You Can Drag It Wherever you want)</p>
+                </div>
                 <div>
                     <button className='btn' onClick={() => bigCitiesSetter(false)}>
                       <span>All Places</span>
@@ -52,16 +54,16 @@ const handleReset = useCallback(
                     </button>
                 </div>
                 <div>
-                    <h2 id="score">Score: {score} Points</h2>
+                    <h2 id="score">Score: <span id="scoreSpan">{score}</span> Points</h2>
                 </div>
                 <div>
                   <h2 id="target">Target: {location}</h2>
                 </div>
                 <div>
                     <div id="controller-grid">
-                        <h2>Last Round Distance: {distance} KM</h2>
+                        {distance && (<h2>Last Round Distance: {distance} KM</h2>)}
                         <h2>Round: {roundCounter + 1}/5</h2>
-                        {highScore && <h2>High Score: {highScore}</h2>}
+                        {highScore && (<h2>High Score: {highScore}</h2>)}
                         <h2>Hints Left: {numOfHints}</h2>
 
                     </div>

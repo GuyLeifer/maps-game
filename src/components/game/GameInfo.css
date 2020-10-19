@@ -18,7 +18,7 @@ h3 {
     text-decoration: underline;
     font-size: 180%;
     -webkit-text-stroke: 0.1px white;
-
+    font-family: 'Permanent Marker', cursive;
 }
 ol {
     max-width: 200px;
@@ -28,4 +28,9 @@ ol {
 li {
     margin: 10px;
     font-size: 110%;
+}
+p {
+    font-size: 110%;
+    -webkit-text-stroke: 0.1px black;
+
 }

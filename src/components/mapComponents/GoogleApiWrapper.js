@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import {Map, InfoWindow, Marker, Circle, GoogleApiWrapper} from 'google-maps-react';
 import Swal from "sweetalert2";
 import GameControl from '../game/GameControl';
@@ -62,31 +62,40 @@ function MapContainer(props) {
   // states
   const [showingInfoWindow, setShowingInfoWindow] = useState(true); // Hides or shows the InfoWindow
   const [activeMarker, setActiveMarker] = useState({}); // Shows the active marker upon click
+  
   const [selectedPlace, setSelectedPlace] = useState({}); // Shows the InfoWindow to the selected place upon a marker
-  const [randomLocation, setRandomLocation] = useState({});
-  const [chosenLocation, setChosenLocation] = useState({});
-  const [score, setScore] = useState(0);
-  const [highScore, setHighScore] = useState(null);
-  const [hint, setHint] = useState(false);
-  const [roundCounter, setRoundCounter] = useState(0);
-  const [showCorrectLocation, setShowCorrectLocation] = useState(false);
-  const [distanceFromTarget, setDistanceFromTarget] = useState();
-  const [onlyBigCities, setOnlyBigCities] = useState(false);
-  const [locations, setLocations] = useState(Locations);
+  const [randomLocation, setRandomLocation] = useState({}); // choose random location from the list
+  const [chosenLocation, setChosenLocation] = useState({}); // chosen location of user
+  const [showCorrectLocation, setShowCorrectLocation] = useState(false); // show the real correct location
+  
+
+  // states for game controller
+  const [score, setScore] = useState(0); // Cumulative Score
+  const [highScore, setHighScore] = useState(null); // high score for local storage
+  
+  const [hint, setHint] = useState(false); // hint setter
+  const [roundCounter, setRoundCounter] = useState(0); // round amount counter
+  
+  const [distanceFromTarget, setDistanceFromTarget] = useState(); // distance from target
+  
+  const [onlyBigCities, setOnlyBigCities] = useState(false); // option for easy mode
+  const [locations, setLocations] = useState(Locations); // change the list between hard mode and easy mode
+  
   
   // useEffect 
   //- check the high score from local storage
   useEffect(() => {
-    const isHighScore = localStorage.getItem("highScore");
-    if (isHighScore) setHighScore(isHighScore);
+    const savedHighScore = localStorage.getItem("highScore");
+    if (savedHighScore) setHighScore(savedHighScore);
   }, []);
 
 // PROBLEM!!
-  useEffect(() => {
+  useEffect(  () => {
     if (onlyBigCities) {
-      setLocations(locations.filter((location) => location.MGLSDE_L_1 > 40000));
+      setLocations(locations.filter((location) => location.MGLSDE_L_1 >= 40000));
+      debugger
     } else {
-      setLocations(Locations);
+      setLocations(Locations)
     }
     console.log("locations: ", locations);
     startRound()
@@ -94,12 +103,7 @@ function MapContainer(props) {
 
   // callbacks
   const startRound = useCallback(() => {
-      let checkerForLocation = "";
       let location = getRandomLocation();
-      while (checkerForLocation.length === 0) {
-        location = getRandomLocation();
-        checkerForLocation = location.MGLSDE_LOC;
-      }
       setRandomLocation({
         lng: location.X,
         lat: location.Y,
@@ -107,6 +111,8 @@ function MapContainer(props) {
       });
     }, []);
 
+
+  // reset map after round or game ended
   const resetMap = useCallback(
     (e, ended = false) => {
       if (showCorrectLocation || ended) {
@@ -138,20 +144,21 @@ function MapContainer(props) {
     [showCorrectLocation, highScore, score, startRound]
   );
 
-  //functions
-const getRandomLocation = () => {
-    return locations[Math.floor(Math.random() * locations.length)];
-};
+    //functions
+    const getRandomLocation = () => {
+      return locations[Math.floor(Math.random() * locations.length)];
+    };
 
-    const onMapClick = (a, b, c) => {
+    // after user clicks his location
+    const onMapClick = (a, b, userLocation) => {
       if (!showCorrectLocation) {
         setChosenLocation({
-          lat: c.latLng.lat(),
-          lng: c.latLng.lng(),
+          lat: userLocation.latLng.lat(),
+          lng: userLocation.latLng.lng(),
         });
         let distance = getDistanceFromLatLonInKm(
-          c.latLng.lat(),
-          c.latLng.lng(),
+          userLocation.latLng.lat(),
+          userLocation.latLng.lng(),
           randomLocation.lat,
           randomLocation.lng
         );
@@ -159,7 +166,7 @@ const getRandomLocation = () => {
         distance = Math.round(distance);
         setDistanceFromTarget(distance);
 
-        // score
+        // Cumulative score
         if (distance < 20) {
           setScore((prev) => prev + 100);
         } else if (distance < 40) {
@@ -172,6 +179,7 @@ const getRandomLocation = () => {
           setScore((prev) => prev + 40);
         }
 
+        // alert the score as the user gets in this round
         setShowCorrectLocation(true);
         if (distance < 20) {
           Swal.fire(
@@ -229,10 +237,23 @@ const getRandomLocation = () => {
       }
     };
 
-    function bigCitiesSetter(boolean) {
-      setOnlyBigCities(boolean);
-      // locations = locations.filter((location) => location.MGLSDE_L_1 > 40000);
+    async function bigCitiesSetter(boolean) {
+      await setOnlyBigCities(boolean);
+      console.log('setOnlyBigCities: ', onlyBigCities);
     }
+
+    // const startNewGame = useMemo(
+    //   () => {
+    //       setHint(false);
+    //       setRoundCounter(0);
+    //       setShowCorrectLocation(false);
+    //       setChosenLocation({});
+    //       setScore(0);
+    //       setRoundCounter(0);
+    //       startRound();
+    //       },
+    //   [onlyBigCities]
+    // );
     
       return (
       <div>
@@ -282,7 +303,7 @@ const getRandomLocation = () => {
           
           {hint && (
             <Circle
-              radius={100200}
+              radius={100000}
               center={{
                 lat: randomLocation.lat + Math.random() / 1.6,
                 lng: randomLocation.lng + Math.random() / 1.6,
