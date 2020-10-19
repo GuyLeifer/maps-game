@@ -56,7 +56,7 @@ const mapStyles = {
   } 
 
 
-// map component
+// MAP COMPONENT
 function MapContainer(props) {
 
   // states
@@ -72,6 +72,7 @@ function MapContainer(props) {
   // states for game controller
   const [score, setScore] = useState(0); // Cumulative Score
   const [highScore, setHighScore] = useState(null); // high score for local storage
+  const [bigCitiesHighScore, setBigCitiesHighScore] = useState(null); // high score of easy mode for local storage
   
   const [hint, setHint] = useState(false); // hint setter
   const [roundCounter, setRoundCounter] = useState(0); // round amount counter
@@ -89,19 +90,8 @@ function MapContainer(props) {
     if (savedHighScore) setHighScore(savedHighScore);
   }, []);
 
-// PROBLEM!!
-  useEffect(  () => {
-    if (onlyBigCities) {
-      setLocations(locations.filter((location) => location.MGLSDE_L_1 >= 40000));
-      debugger
-    } else {
-      setLocations(Locations)
-    }
-    console.log("locations: ", locations);
-    startRound()
-  }, [onlyBigCities])
-
   // callbacks
+  // start a new round
   const startRound = useCallback(() => {
       let location = getRandomLocation();
       setRandomLocation({
@@ -111,6 +101,26 @@ function MapContainer(props) {
       });
     }, []);
 
+    // PROBLEM!!
+    const modeChanger = useCallback( async () => {
+      if (await onlyBigCities) {
+        await setLocations(locations.filter((location) => location.MGLSDE_L_1 >= 40000));
+        const savedBigCitiesHighScore = localStorage.getItem("bigCitiesHighScore");
+        if (savedBigCitiesHighScore) setBigCitiesHighScore(savedBigCitiesHighScore);
+        setHighScore(null);
+        debugger
+      } else {
+        await setLocations(Locations);
+        const savedHighScore = localStorage.getItem("highScore");
+        if (savedHighScore) setHighScore(savedHighScore);
+        setBigCitiesHighScore(null);
+        debugger
+      }
+      console.log("locations: ", locations);
+      setScore(0);
+      setRoundCounter(0);
+      startRound();
+    }, [])
 
   // reset map after round or game ended
   const resetMap = useCallback(
@@ -121,18 +131,34 @@ function MapContainer(props) {
         setShowCorrectLocation(false);
         setChosenLocation({});
         if (ended) {
-          if (score > highScore || !highScore) {
-            setHighScore(score);
-            localStorage.setItem("highScore", score);
-            Swal.fire("Wow", "New Record", "success").then(() =>
-            Swal.fire("You've been finished the Game").then(startRound())
-          );
-            setScore(0);
-            setRoundCounter(0);
+          if (onlyBigCities) {
+            if (score > bigCitiesHighScore || !bigCitiesHighScore) {
+              setBigCitiesHighScore(score);
+              localStorage.setItem("bigCitiesHighScore", score);
+              Swal.fire("Wow", "New Record", "success").then(() =>
+              Swal.fire("You've been finished the Game").then(startRound())
+            );
+              setScore(0);
+              setRoundCounter(0);
+            } else {
+              Swal.fire("You've been finished the Game").then(startRound());
+              setScore(0);
+              setRoundCounter(0);
+            }
           } else {
-            Swal.fire("You've been finished the Game").then(startRound());
-            setScore(0);
-            setRoundCounter(0);
+            if (score > highScore || !highScore) {
+              setHighScore(score);
+              localStorage.setItem("highScore", score);
+              Swal.fire("Wow", "New Record", "success").then(() =>
+              Swal.fire("You've been finished the Game").then(startRound())
+            );
+              setScore(0);
+              setRoundCounter(0);
+            } else {
+              Swal.fire("You've been finished the Game").then(startRound());
+              setScore(0);
+              setRoundCounter(0);
+            }
           }
         } else {
           startRound();
@@ -240,6 +266,7 @@ function MapContainer(props) {
     async function bigCitiesSetter(boolean) {
       await setOnlyBigCities(boolean);
       console.log('setOnlyBigCities: ', onlyBigCities);
+      modeChanger();
     }
 
     // const startNewGame = useMemo(
@@ -259,6 +286,7 @@ function MapContainer(props) {
       <div>
         <GameControl
           highScore={highScore}
+          bigCitiesHighScore={bigCitiesHighScore}
           reset={resetMap}
           score={score}
           distance={distanceFromTarget}
@@ -312,7 +340,7 @@ function MapContainer(props) {
               strokeColor='transparent'
               strokeOpacity={1}
               strokeWeight={5}
-              fillColor='#FF0000'
+              fillColor='#008800'
               fillOpacity={0.2}
             />
           )}

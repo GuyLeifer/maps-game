@@ -12,6 +12,7 @@ function GameControl({
   hintSetter,
   highScore,
   bigCitiesSetter,
+  bigCitiesHighScore
 }) {
 
 //states
@@ -28,7 +29,7 @@ const handleHints = useCallback(() => {
 
 const handleReset = useCallback(
     (e) => {
-        if (roundCounter === 4) {
+        if (roundCounter === 9) {
             setNumOfHints(1);
             reset(e, true);
         } else {
@@ -62,8 +63,9 @@ const handleReset = useCallback(
                 <div>
                     <div id="controller-grid">
                         {distance && (<h2>Last Round Distance: {distance} KM</h2>)}
-                        <h2>Round: {roundCounter + 1}/5</h2>
+                        <h2>Round: {roundCounter + 1}/10</h2>
                         {highScore && (<h2>High Score: {highScore}</h2>)}
+                        {bigCitiesHighScore && (<h2>High Score: {bigCitiesHighScore}</h2>)}
                         <h2>Hints Left: {numOfHints}</h2>
 
                     </div>

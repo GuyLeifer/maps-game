@@ -6,11 +6,11 @@ function GameInfo() {
         <div className="gameInfo">
             <h3>Game Rules:</h3>
             <ol>
-                <li>Every game has 5 Rounds</li>
-                <li>every round you'll get a location</li>
-                <li>you need to locate the location on the map</li>
+                <li>Every game has 10 Rounds</li>
+                <li>Every round you'll get a location</li>
+                <li>You need to locate the location on the map</li>
                 <li>
-                    as close as you will locate the location you'll get points:
+                    As close as you will locate the location you'll get points:
                     <ul>
                         <li>100 points - 20 KM</li> 
                         <li>90 points - 40 KM</li> 
