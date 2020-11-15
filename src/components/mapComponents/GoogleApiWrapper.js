@@ -81,6 +81,7 @@ function MapContainer(props) {
   
   const [onlyBigCities, setOnlyBigCities] = useState(false); // option for easy mode
   const [locations, setLocations] = useState(Locations); // change the list between hard mode and easy mode
+  const [bigCities, setBigCities] = useState(null)
 
   const [knownLocations, setKnownLocations] = useState([]);
   const [unknownLocations, setUnknownLocations] = useState([]);
@@ -105,25 +106,26 @@ function MapContainer(props) {
     }, []);
 
     // PROBLEM!!
-    const modeChanger = useCallback( async () => {
-      if (await onlyBigCities) {
-        await setLocations(locations.filter((location) => location.MGLSDE_L_1 >= 40000));
+    const modeChanger = () => {
+      if (!onlyBigCities) {
+        debugger
+        setBigCities(locations.filter((location) => location.MGLSDE_L_1 >= 40000));
         const savedBigCitiesHighScore = localStorage.getItem("bigCitiesHighScore");
         if (savedBigCitiesHighScore) setBigCitiesHighScore(savedBigCitiesHighScore);
         setHighScore(null);
-        debugger
       } else {
-        await setLocations(Locations);
+        // setLocations(Locations);
         const savedHighScore = localStorage.getItem("highScore");
         if (savedHighScore) setHighScore(savedHighScore);
         setBigCitiesHighScore(null);
-        debugger
+        setBigCities(null);
       }
       console.log("locations: ", locations);
+      console.log("big cities: ", bigCities);
       setScore(0);
       setRoundCounter(0);
       startRound();
-    }, [])
+    }
 
   // reset map after round or game ended
   const resetMap = useCallback(
@@ -175,7 +177,12 @@ function MapContainer(props) {
 
     //functions
     const getRandomLocation = () => {
-      return locations[Math.floor(Math.random() * locations.length)];
+      if (bigCities) {
+        return bigCities[Math.floor(Math.random() * locations.length)];
+      } 
+      else {
+        return locations[Math.floor(Math.random() * locations.length)];
+      } 
     };
 
     // after user clicks his location
@@ -248,7 +255,7 @@ function MapContainer(props) {
             "warning"
           );
         }
-         else {
+        else {
           Swal.fire(
             "Wrong",
             "Your Distance from the target was: " + String(distance) +" Kilometers",
@@ -276,7 +283,6 @@ function MapContainer(props) {
     async function bigCitiesSetter(boolean) {
       if (onlyBigCities !== boolean) {
         await setOnlyBigCities(boolean);
-        console.log('setOnlyBigCities: ', onlyBigCities);
         modeChanger();
       }
     }

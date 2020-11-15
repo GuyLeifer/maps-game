@@ -2,17 +2,22 @@ import React from 'react';
 import './Navbar.css';
 import { Link } from "react-router-dom";
 
+//icons
+import homeIcon from '../../images/homeIcon.png';
+import israelIcon from '../../images/israelIcon.png';
+// import aboutIcon from '../../images/aboutIcon.png';
+
 
 function Navbar() {
     return (
         <div className="navbar">
                 <Link to="/">
                     <div className="navbarLink">
-                        <img className="Icon" src="https://cdn.icon-icons.com/icons2/2248/PNG/512/home_circle_icon_137496.png" alt="Home" width="70" height="70" />
+                        <img className="Icon" src={homeIcon} alt="Home" width="70" height="70" />
                     </div>
                 </Link>
                     <div className="navbarLink">
-                        <img className="Icon" src="https://cdn.countryflags.com/thumbs/israel/flag-button-round-250.png" alt="Israel" width="80" height="80"/> 
+                        <img className="Icon" src={israelIcon} alt="Israel" width="80" height="80"/> 
                     </div>
                     <div className="navbarLink">
                         <img className="Icon" src="https://www.flaticon.com/svg/static/icons/svg/355/355980.svg" alt="Israel" width="80" height="80"/> 

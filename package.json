@@ -9,6 +9,7 @@
     "dotenv": "^8.2.0",
     "google-maps-react": "^2.0.6",
     "react": "^16.14.0",
+    "react-countdown": "^2.3.0",
     "react-dom": "^16.14.0",
     "react-draggable": "^4.4.3",
     "react-router-dom": "^5.2.0",
