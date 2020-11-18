@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './Navbar.css';
 
 // packages
@@ -11,9 +11,35 @@ import googleMapsIcon from '../../images/googleMapsIcon.svg';
 import aboutIcon from '../../images/aboutIcon.png';
 import accountIcon from '../../images/accountIcon.jpg';
 
+import { useAuth } from "../firebaseAuth/contexts/AuthContext";
+import { auth, storage } from '../firebaseAuth/firebase';
 
 function Navbar() {
+
+    const [authIcon, setAuthIcon] = useState(accountIcon);
+
+    const { currentUser } = useAuth();
+    let uid = null;
+    let photoUrl = null;
     
+    if (currentUser != null) {
+        photoUrl = currentUser.photoURL;
+        console.log(photoUrl)
+        uid = currentUser.uid;  // The user's ID, unique to the Firebase project. Do NOT use
+    }
+    storage.ref().child(`users/${uid}/profile`).getDownloadURL().then(function(url) {
+        setAuthIcon(url)
+        
+    }).catch(function(error) {
+        if(photoUrl) setAuthIcon(photoUrl)
+        console.log(error.massage)
+    });
+
+    auth.onAuthStateChanged(function(user) {
+        if(!user) setAuthIcon(accountIcon)
+        else console.log(uid)
+    })
+
     return (
         <div className="navbar">
                 <Link to="/">
@@ -34,7 +60,7 @@ function Navbar() {
                 </Link>
                 <Link to="/dashboard">
                     <div className="navbarLink">
-                        <img className="Icon" src={accountIcon} alt="Account" width="70" height="70" />
+                        <img className="Icon" src={authIcon} alt="Account" width="70" height="70" />                        
                     </div>
                 </Link>
         </div>

@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from "react"
-import { auth, loginWithGoogle } from "../firebase";
+import appFirebase, { auth, storage, loginWithGoogle } from "../firebase";
 
 const AuthContext = React.createContext()
 
@@ -11,10 +11,12 @@ export function AuthProvider({ children }) {
   const [currentUser, setCurrentUser] = useState()
   const [loading, setLoading] = useState(true)
 
-  function signup(email, password) {
+  function signup(email, password, file) {
     return auth.createUserWithEmailAndPassword(email, password).then(auth => {
-
-    }).catch(err => err)
+      storage.ref('users/' + auth.user.uid + '/profile').put(file).then(() => {
+        console.log('successfully upload profile image')
+      })
+    }).catch(err => console.log(err.massage))
   }
 
   function login(email, password) {

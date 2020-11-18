@@ -26,10 +26,10 @@ function App() {
   return (
     <div className="App">
       <Router>
-        <Navbar />
-        <Header />
-          <Switch>
-            <AuthProvider>
+        <AuthProvider>
+          <Navbar />
+          <Header />
+            <Switch>
               <PrivateRoute exact path="/" component={Game} />
               <Route exact path="/about" component={About} />
               <Container
@@ -44,8 +44,8 @@ function App() {
                   <Route path="/forgot-password" component={ForgotPassword} />
                 </div>
               </Container>
-            </AuthProvider>
-          </Switch>
+            </Switch>
+        </AuthProvider>
       </Router>
       <Footer />
     </div>
