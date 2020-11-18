@@ -23,7 +23,7 @@ const appFirebase = firebase.initializeApp({
 });
 
 export const auth = appFirebase.auth();
-export const storage = appFirebase.storage();
+// export const storage = appFirebase.storage();
 
 export const loginWithGoogle = () => {
   const provider = new firebase.auth.GoogleAuthProvider();

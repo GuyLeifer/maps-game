@@ -23,19 +23,11 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 function App() {
 
-  const [user] = useAuthState(auth);
-
   return (
     <div className="App">
       <Router>
         <Navbar />
         <Header />
-        {!user ?
-          <Link to="/account">
-            <div className="loginAsk">Please Login First</div>      
-          </Link>
-        : null
-        }
           <Switch>
             <AuthProvider>
               <PrivateRoute exact path="/" component={Game} />

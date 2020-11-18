@@ -27,11 +27,6 @@ function Navbar() {
                     <div className="navbarLink">
                         <img className="Icon" src={googleMapsIcon} alt="Google Maps" width="80" height="80"/> 
                     </div>
-                <Link to="/account">
-                    <div className="navbarLink">
-                        <img className="Icon" src={accountUser} alt="Home" width="70" height="70" />
-                    </div>
-                </Link>
                 <Link to="/about">
                     <div className="navbarLink">
                         <img className="Icon" src={aboutIcon} alt="About" width="70" height="70" />
