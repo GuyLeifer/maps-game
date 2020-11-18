@@ -6,4 +6,8 @@
     color: white;
     -webkit-text-stroke: 1px black;
     text-shadow: 2px 2px #000000;
+    margin: 30px;
+}
+.aboutImg {
+    margin: 20px;
 }

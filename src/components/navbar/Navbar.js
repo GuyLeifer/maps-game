@@ -1,15 +1,19 @@
 import React from 'react';
 import './Navbar.css';
+
+// packages
 import { Link } from "react-router-dom";
 
 //icons
 import homeIcon from '../../images/homeIcon.png';
 import israelIcon from '../../images/israelIcon.png';
-import accountUser from '../../images/accountUser.jpg';
-// import aboutIcon from '../../images/aboutIcon.png';
+import googleMapsIcon from '../../images/googleMapsIcon.svg';
+import aboutIcon from '../../images/aboutIcon.png';
+import accountIcon from '../../images/accountIcon.jpg';
 
 
 function Navbar() {
+    
     return (
         <div className="navbar">
                 <Link to="/">
@@ -21,7 +25,7 @@ function Navbar() {
                         <img className="Icon" src={israelIcon} alt="Israel" width="80" height="80"/> 
                     </div>
                     <div className="navbarLink">
-                        <img className="Icon" src="https://www.flaticon.com/svg/static/icons/svg/355/355980.svg" alt="Israel" width="80" height="80"/> 
+                        <img className="Icon" src={googleMapsIcon} alt="Google Maps" width="80" height="80"/> 
                     </div>
                 <Link to="/account">
                     <div className="navbarLink">
@@ -30,7 +34,12 @@ function Navbar() {
                 </Link>
                 <Link to="/about">
                     <div className="navbarLink">
-                        <img className="Icon" src="https://static.thenounproject.com/png/2940521-200.png" alt="Home" width="70" height="70" />
+                        <img className="Icon" src={aboutIcon} alt="About" width="70" height="70" />
+                    </div>
+                </Link>
+                <Link to="/dashboard">
+                    <div className="navbarLink">
+                        <img className="Icon" src={accountIcon} alt="Account" width="70" height="70" />
                     </div>
                 </Link>
         </div>
