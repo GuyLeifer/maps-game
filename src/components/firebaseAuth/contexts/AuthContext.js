@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from "react"
-import appFirebase, { auth, storage, loginWithGoogle } from "../firebase";
+import { auth, storage, loginWithGoogle, db } from "../firebase";
 
 const AuthContext = React.createContext()
 
@@ -11,9 +11,11 @@ export function AuthProvider({ children }) {
   const [currentUser, setCurrentUser] = useState()
   const [loading, setLoading] = useState(true)
 
-  function signup(email, password, file) {
+  function signup(email, password, file, firstName, lastName, age, gender) {
     return auth.createUserWithEmailAndPassword(email, password).then(auth => {
-      storage.ref('users/' + auth.user.uid + '/profile').put(file).then(() => {
+      const uid = auth.user.uid
+      userDataCloud(uid, firstName, lastName, email, age, gender)
+      storage.ref('users/' + uid + '/profile').put(file).then(() => {
         console.log('successfully upload profile image')
       })
     }).catch(err => console.log(err.massage))
@@ -40,6 +42,22 @@ export function AuthProvider({ children }) {
   }
 
   const googleLogin = () => loginWithGoogle();
+
+  function userDataCloud(userUid, firstName, lastName, email, age, gender) {
+    db.collection('users').doc(`${userUid}`).set({
+      userUid: userUid,
+      firstName: firstName,
+      lastName: lastName,
+      email: email,
+      age: age,
+      gender: gender,
+    }).then(function() {
+      console.log("Document successfully written!");
+  })
+  .catch(function(error) {
+      console.error("Error writing document: ", error);
+  });  
+  };
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(user => {

@@ -24,20 +24,16 @@ function Navbar() {
     
     if (currentUser != null) {
         photoUrl = currentUser.photoURL;
-        console.log(photoUrl)
         uid = currentUser.uid;  // The user's ID, unique to the Firebase project. Do NOT use
     }
     storage.ref().child(`users/${uid}/profile`).getDownloadURL().then(function(url) {
         setAuthIcon(url)
-        
     }).catch(function(error) {
         if(photoUrl) setAuthIcon(photoUrl)
-        console.log(error.massage)
     });
 
     auth.onAuthStateChanged(function(user) {
         if(!user) setAuthIcon(accountIcon)
-        else console.log(uid)
     })
 
     return (
