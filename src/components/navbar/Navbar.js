@@ -38,27 +38,27 @@ function Navbar() {
 
     return (
         <div className="navbar">
+            <div className="navbarLink">
                 <Link to="/about">
-                    <div className="navbarLink">
-                        <img className="Icon" src={aboutIcon} alt="About" width="70" height="70" />
-                    </div>
+                    <img className="Icon" src={aboutIcon} alt="About" width="50%"  />
                 </Link>
-                    <div className="navbarLink">
-                        <img className="Icon" src={israelIcon} alt="Israel" width="80" height="80"/> 
-                    </div>
+            </div>
+            <div className="navbarLink">
+                <img className="Icon" src={israelIcon} alt="Israel" width="50%" /> 
+            </div>
+            <div className="navbarLink">
                 <Link to="/">
-                    <div className="navbarLink">
-                        <img className="Icon" src={homeIcon} alt="Home" width="70" height="70" />
-                    </div>
+                    <img className="Icon" src={homeIcon} alt="Home" width="50%"  />
                 </Link>
-                    <div className="navbarLink">
-                        <img className="Icon" src={googleMapsIcon} alt="Google Maps" width="80" height="80"/> 
-                    </div>
+            </div>
+            <div className="navbarLink">
+                <img className="Icon" src={googleMapsIcon} alt="Google Maps" width="50%" /> 
+            </div>
+            <div className="navbarLink">
                 <Link to="/dashboard">
-                    <div className="navbarLink">
-                        <img className="Icon" src={authIcon} alt="Account" width="70" height="70" />                        
-                    </div>
+                    <img className="Icon" src={authIcon} alt="Account" width="50%" />                        
                 </Link>
+            </div>
         </div>
     )
 }

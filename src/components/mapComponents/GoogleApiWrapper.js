@@ -6,54 +6,8 @@ import greenMarker from './green-marker.png';
 import Locations from "../../cities.json";
 import './GoogleApiWrapper.css';
 
-
-// https://stackoverflow.com/questions/3110020/google-maps-api-v3-no-labels
-
-const mapNoLabels = (mapProps, map) => {
-  const options = [
-    {
-      featureType: "all",
-      elementType: "labels",
-      stylers: [
-        { visibility: "off" }
-      ]
-    }
-  ];
-
-  map.set('styles', options);
-}
-
-
-  //  (https://stackoverflow.com/questions/18883601/function-to-calculate-distance-between-two-coordinates)
-
-  function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
-
-    function deg2rad(deg) {
-      const pie = Math.PI;
-      return deg * (pie / 180);
-    }
-
-    let R = 6371; // Radius of the earth in km
-    let dLat = deg2rad(lat2 - lat1); // deg2rad below
-    let dLon = deg2rad(lon2 - lon1);
-    let a =
-      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-      Math.cos(deg2rad(lat1)) *
-        Math.cos(deg2rad(lat2)) *
-        Math.sin(dLon / 2) *
-        Math.sin(dLon / 2);
-    let c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    let d = R * c; // Distance in km
-    return d;
-  }
-
-// general
-const mapStyles = {
-    width: '100%',
-    height: '90%',
-    position: "fixed",
-    bottom: '0'
-  } 
+import { getDistanceFromLatLonInKm } from './helpers';
+import { mapStyles, mapNoLabels } from './style';
 
 
 // MAP COMPONENT
@@ -81,7 +35,7 @@ function MapContainer(props) {
   
   const [onlyBigCities, setOnlyBigCities] = useState(false); // option for easy mode
   const [locations, setLocations] = useState(Locations); // change the list between hard mode and easy mode
-  const [bigCities, setBigCities] = useState(null)
+  const [bigCities, setBigCities] = useState(locations.filter((location) => location.MGLSDE_L_1 >= 40000))
 
   const [knownLocations, setKnownLocations] = useState([]);
   const [unknownLocations, setUnknownLocations] = useState([]);
@@ -103,24 +57,20 @@ function MapContainer(props) {
         lat: location.Y,
         name: location.MGLSDE_L_4,
       });
-    }, []);
+    }, [onlyBigCities]);
 
     // PROBLEM!!
     const modeChanger = () => {
-      if (!onlyBigCities) {
-        setBigCities(locations.filter((location) => location.MGLSDE_L_1 >= 40000));
+      console.log(onlyBigCities)
+      if (onlyBigCities) {
         const savedBigCitiesHighScore = localStorage.getItem("bigCitiesHighScore");
         if (savedBigCitiesHighScore) setBigCitiesHighScore(savedBigCitiesHighScore);
         setHighScore(null);
       } else {
-        setLocations(Locations);
         const savedHighScore = localStorage.getItem("highScore");
         if (savedHighScore) setHighScore(savedHighScore);
         setBigCitiesHighScore(null);
-        setBigCities(null);
       }
-      console.log("locations: ", locations);
-      console.log("big cities: ", bigCities);
       setScore(0);
       setRoundCounter(0);
       startRound();
@@ -176,8 +126,8 @@ function MapContainer(props) {
 
     //functions
     const getRandomLocation = () => {
-      if (bigCities) {
-        return bigCities[Math.floor(Math.random() * locations.length)];
+      if (!onlyBigCities) {
+        return bigCities[Math.floor(Math.random() * bigCities.length)];
       } 
       else {
         return locations[Math.floor(Math.random() * locations.length)];
@@ -197,7 +147,7 @@ function MapContainer(props) {
           randomLocation.lat,
           randomLocation.lng
         );
-        console.log(randomLocation)
+
         distance = Math.round(distance);
         setDistanceFromTarget(distance);
 
@@ -285,19 +235,6 @@ function MapContainer(props) {
         modeChanger();
       }
     }
-
-    // const startNewGame = useMemo(
-    //   () => {
-    //       setHint(false);
-    //       setRoundCounter(0);
-    //       setShowCorrectLocation(false);
-    //       setChosenLocation({});
-    //       setScore(0);
-    //       setRoundCounter(0);
-    //       startRound();
-    //       },
-    //   [onlyBigCities]
-    // );
     
       return (
       <div>
@@ -369,5 +306,5 @@ function MapContainer(props) {
     }
 
 export default GoogleApiWrapper({
-  apiKey: "AIzaSyCVKzvtYV-jRP6Z0jINbw9fZfwKj7dPyeM"
+  apiKey: "AIzaSyCLi5v2f-vP-Xs7u59LIuY8lZ5mlaKERe0"
 })(MapContainer)
