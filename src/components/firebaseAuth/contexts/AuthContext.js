@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from "react"
-import { auth, storage, loginWithGoogle, db } from "../firebase";
+import { auth, storage, db, loginWithGoogle, loginWithFacebook } from "../firebase";
 
 const AuthContext = React.createContext()
 
@@ -42,6 +42,7 @@ export function AuthProvider({ children }) {
   }
 
   const googleLogin = () => loginWithGoogle();
+  const facebookLogin = () => loginWithFacebook();
 
   function userDataCloud(userUid, firstName, lastName, email, age, gender) {
     db.collection('users').doc(`${userUid}`).set({
@@ -76,7 +77,8 @@ export function AuthProvider({ children }) {
     resetPassword,
     updateEmail,
     updatePassword,
-    googleLogin
+    googleLogin,
+    facebookLogin
   }
 
   return (
