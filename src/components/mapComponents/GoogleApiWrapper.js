@@ -108,13 +108,12 @@ function MapContainer(props) {
     // PROBLEM!!
     const modeChanger = () => {
       if (!onlyBigCities) {
-        debugger
         setBigCities(locations.filter((location) => location.MGLSDE_L_1 >= 40000));
         const savedBigCitiesHighScore = localStorage.getItem("bigCitiesHighScore");
         if (savedBigCitiesHighScore) setBigCitiesHighScore(savedBigCitiesHighScore);
         setHighScore(null);
       } else {
-        // setLocations(Locations);
+        setLocations(Locations);
         const savedHighScore = localStorage.getItem("highScore");
         if (savedHighScore) setHighScore(savedHighScore);
         setBigCitiesHighScore(null);
@@ -369,7 +368,6 @@ function MapContainer(props) {
       );
     }
 
- 
 export default GoogleApiWrapper({
-  apiKey: "AIzaSyCLi5v2f-vP-Xs7u59LIuY8lZ5mlaKERe0"
+  apiKey: "AIzaSyCVKzvtYV-jRP6Z0jINbw9fZfwKj7dPyeM"
 })(MapContainer)
