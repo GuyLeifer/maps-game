@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react"
 import { Card, Button, Alert } from "react-bootstrap"
 import { useAuth } from "../contexts/AuthContext"
 import { Link, useHistory } from "react-router-dom"
-import { db } from "../firebase";
+import { db, storage } from "../firebase";
+import './Dashboard.css'
 
 export default function Dashboard() {
   const [error, setError] = useState("");
@@ -12,6 +13,7 @@ export default function Dashboard() {
   const [age, setAge] = useState();
   const [gender, setGender] = useState();
   const [email, setEmail] = useState();
+  const [picture, setPicture] = useState();
 
   const { currentUser, logout } = useAuth();
   const history = useHistory();
@@ -28,6 +30,11 @@ export default function Dashboard() {
         setAge(data.age);
         setGender(data.gender);
         setEmail(data.email); 
+        storage.ref().child(`users/${currentUser.uid}/profile`).getDownloadURL().then(function(url) {
+          setPicture(url) 
+        }).catch(err => {
+          console.log(err.massage)
+        })
       } else console.log("no data")
 });
   }, [currentUser])
@@ -41,7 +48,7 @@ export default function Dashboard() {
       setError("Failed to log out")
     }
   }
-
+  console.log(currentUser)
   return (
     <>
       <Card>
@@ -77,6 +84,18 @@ export default function Dashboard() {
             <div>
               <strong>Gender:</strong> {gender}
             </div>
+          }
+          {picture && 
+            <div>
+              <strong>Profile Picture:</strong><br />
+              <img className="profilePicture" src={`${picture}`}/>
+            </div>
+          }
+          {currentUser.photoURL &&
+            <div> 
+              <strong>Profile Picture:</strong><br />
+              <img className="profilePicture" src={`${currentUser.photoURL}`}/>
+            </div>    
           }
           
           

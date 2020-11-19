@@ -38,22 +38,22 @@ function Navbar() {
 
     return (
         <div className="navbar">
+                <Link to="/about">
+                    <div className="navbarLink">
+                        <img className="Icon" src={aboutIcon} alt="About" width="70" height="70" />
+                    </div>
+                </Link>
+                    <div className="navbarLink">
+                        <img className="Icon" src={israelIcon} alt="Israel" width="80" height="80"/> 
+                    </div>
                 <Link to="/">
                     <div className="navbarLink">
                         <img className="Icon" src={homeIcon} alt="Home" width="70" height="70" />
                     </div>
                 </Link>
                     <div className="navbarLink">
-                        <img className="Icon" src={israelIcon} alt="Israel" width="80" height="80"/> 
-                    </div>
-                    <div className="navbarLink">
                         <img className="Icon" src={googleMapsIcon} alt="Google Maps" width="80" height="80"/> 
                     </div>
-                <Link to="/about">
-                    <div className="navbarLink">
-                        <img className="Icon" src={aboutIcon} alt="About" width="70" height="70" />
-                    </div>
-                </Link>
                 <Link to="/dashboard">
                     <div className="navbarLink">
                         <img className="Icon" src={authIcon} alt="Account" width="70" height="70" />                        
