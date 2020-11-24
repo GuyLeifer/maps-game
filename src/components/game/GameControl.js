@@ -12,7 +12,8 @@ function GameControl({
   hintSetter,
   highScore,
   bigCitiesSetter,
-  bigCitiesHighScore
+  bigCitiesHighScore,
+  bigCities
 }) {
 
 //states
@@ -42,41 +43,45 @@ const handleReset = useCallback(
   return (
       <Draggable>
             <div className='controls'>
-                <div>
-                  <h1>Game Controller</h1>
-                  <p>(You Can Drag It Wherever you want)</p>
-                </div>
-                <div>
-                    <button className='btn' onClick={() => bigCitiesSetter(false)}>
-                      <span>All Places</span>
-                    </button>
-                    <button className='btn' onClick={() => bigCitiesSetter(true)}>
-                      <span>Big Cities</span>
-                    </button>
-                </div>
-                <div>
-                    <h2 id="score">Score: <span id="scoreSpan">{score}</span> Points</h2>
-                </div>
-                <div>
-                  <h2 id="target">Target: {location}</h2>
-                </div>
-                <div>
-                    <div id="controller-grid">
-                        {distance && (<h2>Last Round Distance: {distance} KM</h2>)}
-                        <h2>Round: {roundCounter + 1}/10</h2>
-                        {highScore && (<h2>High Score: {highScore}</h2>)}
-                        {bigCitiesHighScore && (<h2>High Score: {bigCitiesHighScore}</h2>)}
-                        <h2>Hints Left: {numOfHints}</h2>
-
-                    </div>
-                    <button className='hint-btn btn' onClick={handleHints}>
-                      <span>Get a Hint</span>
-                    </button>
-                    <button className='next-turn-btn btn' onClick={handleReset}>
-                      <span>Next Turn</span>
-                    </button>
-                </div>
-            </  div>
+              <div>
+                <h1 id="controllerH1">Game Controller</h1>
+                <p>(You Can Drag It Wherever you want)</p>
+              </div>
+              <div className="btns">
+                  <button className='btn' onClick={() => bigCitiesSetter(false)}>
+                    <span>All Places</span>
+                  </button>
+                  <button className='btn' onClick={() => bigCitiesSetter(true)}>
+                    <span>Big Cities</span>
+                  </button>
+              </div>
+              <div>
+                  <h2 id="score">Score: <span id="scoreSpan">{score}</span> Points</h2>
+              </div>
+              <div>
+                <h2 id="target">Target: {location}</h2>
+              </div>
+              <div>
+                  <div id="controller-grid">
+                      {distance && (<h2>Last Round Distance: {distance} KM</h2>)}
+                      <h2>Round: {roundCounter + 1}/10</h2>
+                      {bigCities ?
+                        bigCitiesHighScore && <h2>High Score: {bigCitiesHighScore}</h2> 
+                      : 
+                        highScore && (<h2>High Score: {highScore}</h2>)
+                      }
+                      <h2>Hints Left: {numOfHints}</h2>
+                  </div>
+              </div>
+              <div className="btns">
+                  <button className='hint-btn btn' onClick={handleHints}>
+                    <span>Get a Hint</span>
+                  </button>
+                  <button className='next-turn-btn btn' onClick={handleReset}>
+                    <span>Next Turn</span>
+                  </button>
+              </div>             
+            </div>
         </Draggable>
   );
 }

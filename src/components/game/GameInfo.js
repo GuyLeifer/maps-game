@@ -4,7 +4,7 @@ import './GameInfo.css';
 function GameInfo() {
     return (
         <div className="gameInfo">
-            <h3>Game Rules:</h3>
+            <h3 id="infoH3">Game Rules:</h3>
             <ol>
                 <li>Every game has 10 Rounds</li>
                 <li>Every round you'll get a location</li>

@@ -9,3 +9,9 @@ header {
     text-shadow: 2px 2px black;
     background-image: linear-gradient(to bottom right, darkblue, rgb(255, 255, 255));
 }
+#headerH1 {
+    font-size: 3vw;
+}
+#headerH2 {
+    font-size: 3vw;
+}

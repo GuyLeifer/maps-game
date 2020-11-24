@@ -3,7 +3,7 @@
 .gameInfo {
     text-align: center;
     font-family: 'Gochi Hand', cursive;
-    font-size: 120%;
+    font-size: 2vw;
     border: 1px solid rgb(39, 22, 22);
     border-radius: 170px;
     width: 70%;
@@ -14,9 +14,9 @@
     -webkit-text-stroke: 1px black;
 
 }
-h3 {
+#infoH3 {
     text-decoration: underline;
-    font-size: 180%;
+    font-size: 4vw;
     -webkit-text-stroke: 0.1px white;
     font-family: 'Permanent Marker', cursive;
 }
@@ -27,10 +27,10 @@ ol {
 }
 li {
     margin: 10px;
-    font-size: 110%;
+    font-size: 2.5vw;
 }
 p {
-    font-size: 110%;
+    font-size: 2.5vw;
     -webkit-text-stroke: 0.1px black;
 
 }

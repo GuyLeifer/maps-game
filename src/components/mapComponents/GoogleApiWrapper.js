@@ -248,6 +248,7 @@ function MapContainer(props) {
           roundCounter={roundCounter}
           hintSetter={setHint}
           bigCitiesSetter={bigCitiesSetter}
+          bigCities={onlyBigCities}
         />
   
         <Map className="map"

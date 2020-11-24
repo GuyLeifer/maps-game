@@ -6,7 +6,7 @@ import googleMapsIcon from '../../images/googleMapsIcon.svg';
 function About() {
     return (
         <div>
-            <h2 className="h2">This is a Google - Maps game</h2>
+            <h2 id="aboutH2">This is a Google - Maps game</h2>
             <img className="aboutImg" src={googleMapsIcon} width="100" height="100" />
             <GameInfo />
         </div>
