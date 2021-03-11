@@ -12,15 +12,14 @@ function SignUp(props) {
 
     const createUser = (e, email, password) => {
         e.preventDefault();
-        const user = firebase.auth().createUserWithEmailAndPassword(email, password).catch(function(error) {
+        const user = firebase.auth().createUserWithEmailAndPassword(email, password).catch(function (error) {
             // Handle Errors here.
             let errorCode = error.code;
             let errorMessage = error.message;
             // ...
-            if(errorCode) setErrCode(errorCode);
-            if(errorMessage) setErrMassage(errorMessage);
+            if (errorCode) setErrCode(errorCode);
+            if (errorMessage) setErrMassage(errorMessage);
         });
-        console.log(user)
     }
 
     return (
@@ -28,18 +27,18 @@ function SignUp(props) {
             <form className="signUpForm" onSubmit={(e) => createUser(e, email, password)}>
                 <label>
                     Email:
-                    <input type="text" name="email" onChange={(e) => setEmail(e.target.value)}/>
+                    <input type="text" name="email" onChange={(e) => setEmail(e.target.value)} />
                 </label>
                 <label>
                     Password:
-                    <input type="password" name="password" onChange={(e) => setPassword(e.target.value)}/>
+                    <input type="password" name="password" onChange={(e) => setPassword(e.target.value)} />
                 </label>
                 {errCode || errMassage &&
                     <div>{errCode, errMassage}</div>
                 }
                 <input type="submit" value="Sign In" />
             </form>
-            
+
         </div>
     )
 }

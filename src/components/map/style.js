@@ -15,7 +15,7 @@ export const mapNoLabels = (mapProps, map) => {
             stylers: [
                 { visibility: "off" }
             ]
-        }
+        },
     ];
     map.set('styles', options);
 }

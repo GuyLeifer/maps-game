@@ -19,13 +19,12 @@ function Login() {
     }
     const loginWithEmail = (e, email, password) => {
         e.preventDefault();
-        console.log(email, password)
-        const provider = new firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
+        const provider = new firebase.auth().signInWithEmailAndPassword(email, password).catch(function (error) {
             // Handle Errors here.
             var errorCode = error.code;
             var errorMessage = error.message;
             // ...
-        });       
+        });
     }
 
     return (
@@ -34,20 +33,20 @@ function Login() {
                 <img className="loginIcon" src={googleIcon} onClick={() => loginWithGoogle()} />
             </div>
             <div>
-            <p onClick={() => setEmailLogin(prev => !prev)}>Log In With Email</p>
-            {emailLogin && (
-                <form className="loginForm" onSubmit={(e) => loginWithEmail(e, email, password)}>
-                <label>
-                    Email:
-                    <input type="text" name="email" onChange={(e) => setEmail(e.target.value)}/>
-                </label>
-                <label>
-                    Password:
-                    <input type="password" name="password" onChange={(e) => setPassword(e.target.value)}/>
-                </label>
-                <input type="submit" value="Login" />
-            </form>
-            )}
+                <p onClick={() => setEmailLogin(prev => !prev)}>Log In With Email</p>
+                {emailLogin && (
+                    <form className="loginForm" onSubmit={(e) => loginWithEmail(e, email, password)}>
+                        <label>
+                            Email:
+                    <input type="text" name="email" onChange={(e) => setEmail(e.target.value)} />
+                        </label>
+                        <label>
+                            Password:
+                    <input type="password" name="password" onChange={(e) => setPassword(e.target.value)} />
+                        </label>
+                        <input type="submit" value="Login" />
+                    </form>
+                )}
             </div>
             <div>
                 another icon

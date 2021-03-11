@@ -19,24 +19,24 @@ export default function Dashboard() {
   const history = useHistory();
   useEffect(() => {
     db.collection("users")
-    .doc(`${currentUser.uid}`)
-    .get()
-    .then(doc => {
-      const data = doc.data();
-      // setters
-      if(data) {
-        setFirstName(data.firstName);
-        setLastName(data.lastName);
-        setAge(data.age);
-        setGender(data.gender);
-        setEmail(data.email); 
-        storage.ref().child(`users/${currentUser.uid}/profile`).getDownloadURL().then(function(url) {
-          setPicture(url) 
-        }).catch(err => {
-          console.log(err.massage)
-        })
-      } else console.log("no data")
-});
+      .doc(`${currentUser.uid}`)
+      .get()
+      .then(doc => {
+        const data = doc.data();
+        // setters
+        if (data) {
+          setFirstName(data.firstName);
+          setLastName(data.lastName);
+          setAge(data.age);
+          setGender(data.gender);
+          setEmail(data.email);
+          storage.ref().child(`users/${currentUser.uid}/profile`).getDownloadURL().then(function (url) {
+            setPicture(url)
+          }).catch(err => {
+            console.log(err.massage)
+          })
+        } else console.log("no data")
+      });
   }, [currentUser])
   async function handleLogout() {
     setError("")
@@ -48,7 +48,6 @@ export default function Dashboard() {
       setError("Failed to log out")
     }
   }
-  console.log(currentUser)
   return (
     <>
       <Card>
@@ -58,47 +57,47 @@ export default function Dashboard() {
           {currentUser.displayName &&
             <div>
               <strong>Username:</strong> {currentUser.displayName}
-            </div>      
+            </div>
           }
-          {firstName && 
+          {firstName &&
             <div>
               <strong>First Name:</strong> {firstName}
-            </div> 
+            </div>
           }
-          {lastName && 
+          {lastName &&
             <div>
               <strong>Last Name:</strong> {lastName}
-            </div> 
+            </div>
           }
           {(currentUser.email || email) &&
             <div>
               <strong>Email:</strong> {currentUser.email || email}
-            </div>         
+            </div>
           }
-          {age && 
+          {age &&
             <div>
               <strong>Age:</strong> {age}
             </div>
           }
-          {gender && 
+          {gender &&
             <div>
               <strong>Gender:</strong> {gender}
             </div>
           }
-          {picture && 
+          {picture &&
             <div>
               <strong>Profile Picture:</strong><br />
-              <img className="profilePicture" src={`${picture}`}/>
+              <img className="profilePicture" src={`${picture}`} />
             </div>
           }
           {currentUser.photoURL &&
-            <div> 
+            <div>
               <strong>Profile Picture:</strong><br />
-              <img className="profilePicture" src={`${currentUser.photoURL}`}/>
-            </div>    
+              <img className="profilePicture" src={`${currentUser.photoURL}`} />
+            </div>
           }
-          
-          
+
+
           <Link to="/update-profile" className="btn btn-primary w-100 mt-3">
             Update Profile
           </Link>
